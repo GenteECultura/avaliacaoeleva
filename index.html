@@ -59,65 +59,150 @@
             </section>
 
             <!-- Seção Técnica -->
-            <section class="form-section">
-                <h2><i class="fas fa-chart-bar"></i> Avaliação Técnica</h2>
-
-                <div class="avaliacao-grid">
-                    <div class="grid-header">Critério</div>
-                    <div class="grid-header">Descrição</div>
-                    <div class="grid-header">Nota</div>
-
-                    <!-- Critérios técnicos -->
-                    {% for campo, descricao in [
-                        ("diagnostico_problema", "Clareza e profundidade na leitura da situação proposta"),
-                        ("qualidade_proposta", "Coerência da solução, aplicabilidade, criatividade e estratégia"),
-                        ("conexao_objetivos", "Alinhamento com metas e valores da Gentil Negócios"),
-                        ("uso_dados", "Argumentação baseada em dados concretos ou benchmarking"),
-                        ("clareza_apresentacao", "Lógica, fluidez e clareza na comunicação da proposta")
-                    ] %}
-                    <div>{{ campo.replace("_", " ").capitalize() }}</div>
-                    <div>{{ descricao }}</div>
-                    <div class="rating">
-                        <select name="{{ campo }}" required>
-                            <option value="">Selecione</option>
-                            {% for nota in range(1, 6) %}
-                            <option value="{{ nota }}">{{ nota }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    {% endfor %}
+            <div class="avaliacao-grid">
+                <div class="grid-header">Critério</div>
+                <div class="grid-header">Descrição</div>
+                <div class="grid-header">Nota</div>
+              
+                <div>Diagnóstico do problema</div>
+                <div>Clareza e profundidade na leitura da situação proposta</div>
+                <div class="rating">
+                  <select name="diagnostico_problema" required>
+                    <option value="">Selecione</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
                 </div>
-            </section>
+              
+                <div>Qualidade e viabilidade da proposta</div>
+                <div>Coerência da solução, aplicabilidade, criatividade e estratégia</div>
+                <div class="rating">
+                  <select name="qualidade_proposta" required>
+                    <option value="">Selecione</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+              
+                <div>Conexão com os objetivos do negócio</div>
+                <div>Alinhamento com metas e valores da Gentil Negócios</div>
+                <div class="rating">
+                  <select name="conexao_objetivos" required>
+                    <option value="">Selecione</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+              
+                <div>Uso de dados e evidências</div>
+                <div>Argumentação baseada em dados concretos, indicadores ou benchmarking</div>
+                <div class="rating">
+                  <select name="uso_dados" required>
+                    <option value="">Selecione</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+              
+                <div>Clareza e estrutura da apresentação</div>
+                <div>Lógica, fluidez e clareza na comunicação da proposta</div>
+                <div class="rating">
+                  <select name="clareza_apresentacao" required>
+                    <option value="">Selecione</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+              </div>
+              
 
             <!-- Seção Comportamental -->
-            <section class="form-section">
-                <h2><i class="fas fa-users"></i> Avaliação Comportamental</h2>
-
-                <div class="avaliacao-grid">
-                    <div class="grid-header">Critério</div>
-                    <div class="grid-header">Descrição</div>
-                    <div class="grid-header">Nota</div>
-
-                    {% for campo, descricao in [
-                        ("protagonismo", "Iniciativa, autoconfiança e postura de dono"),
-                        ("visao_futuro", "Olhar estratégico e sensibilidade para tendências"),
-                        ("comunicacao", "Capacidade de articular ideias e engajar"),
-                        ("colaboracao", "Postura respeitosa e visão de equipe"),
-                        ("adequacao_cultura", "Aderência aos valores e cultura da empresa")
-                    ] %}
-                    <div>{{ campo.replace("_", " ").capitalize() }}</div>
-                    <div>{{ descricao }}</div>
-                    <div class="rating">
-                        <select name="{{ campo }}" required>
-                            <option value="">Selecione</option>
-                            {% for nota in range(1, 6) %}
-                            <option value="{{ nota }}">{{ nota }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    {% endfor %}
+            <div class="avaliacao-grid">
+                <div class="grid-header">Critério</div>
+                <div class="grid-header">Descrição</div>
+                <div class="grid-header">Nota</div>
+              
+                <div>Protagonismo</div>
+                <div>Iniciativa, autoconfiança e postura de dono</div>
+                <div class="rating">
+                  <select name="protagonismo" required>
+                    <option value="">Selecione</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
                 </div>
-            </section>
+              
+                <div>Visão de futuro</div>
+                <div>Olhar estratégico e sensibilidade para tendências</div>
+                <div class="rating">
+                  <select name="visao_futuro" required>
+                    <option value="">Selecione</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+              
+                <div>Comunicação</div>
+                <div>Capacidade de articular ideias e engajar</div>
+                <div class="rating">
+                  <select name="comunicacao" required>
+                    <option value="">Selecione</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+              
+                <div>Colaboração</div>
+                <div>Postura respeitosa e visão de equipe</div>
+                <div class="rating">
+                  <select name="colaboracao" required>
+                    <option value="">Selecione</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+              
+                <div>Adequação à cultura</div>
+                <div>Aderência aos valores e cultura da empresa</div>
+                <div class="rating">
+                  <select name="adequacao_cultura" required>
+                    <option value="">Selecione</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+              </div>
+              
 
             <!-- Campos Abertos -->
             <section class="form-section">
