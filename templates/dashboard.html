@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Avaliações | Gentil Negócios</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    .dashboard-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 1.5rem;
+    }
+    .kpis {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 2rem;
+    }
+    .kpi {
+      background: #f9f9f9;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+    .kpi h3 {
+      margin-bottom: 0.5rem;
+      color: #3498db;
+    }
+    canvas {
+      margin: 2rem auto;
+      max-width: 90%;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+    }
+    .export-button {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .export-button button {
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .export-button button:hover {
+      background-color: #219150;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <h1><i class="fas fa-chart-pie"></i> Dashboard de Avaliações</h1>
+
+    <div class="kpis">
+      <div class="kpi">
+        <h3 id="totalAvaliacoes">0</h3>
+        <p>Total de Avaliações</p>
+      </div>
+      <div class="kpi">
+        <h3 id="mediaTecnica">0</h3>
+        <p>Média Técnica</p>
+      </div>
+      <div class="kpi">
+        <h3 id="mediaComportamental">0</h3>
+        <p>Média Comportamental</p>
+      </div>
+    </div>
+
+    <h2>Notas por Candidato</h2>
+    <canvas id="graficoNotas"></canvas>
+
+    <h2>Distribuição de Recomendações</h2>
+    <canvas id="graficoRecomendacoes"></canvas>
+
+    <div class="export-button">
+      <button id="btnExportar">
+        <i class="fas fa-file-excel"></i> Exportar para Excel
+      </button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      let dadosAvaliacoes = []; // <<< Agora declarada!
+
+      try {
+        const response = await fetch('/api/avaliacoes');
+        const data = await response.json();
+
+        if (data.success) {
+          dadosAvaliacoes = data.avaliacoes; // <<< Guardar dados para exportação
+
+          const avaliacoes = data.avaliacoes;
+
+          // Atualiza KPIs
+          document.getElementById('totalAvaliacoes').textContent = avaliacoes.length;
+
+          const mediaTecnica = (avaliacoes.reduce((acc, a) => acc + (a.nota_tecnica || 0), 0) / avaliacoes.length).toFixed(2);
+          const mediaComportamental = (avaliacoes.reduce((acc, a) => acc + (a.nota_comportamental || 0), 0) / avaliacoes.length).toFixed(2);
+
+          document.getElementById('mediaTecnica').textContent = isNaN(mediaTecnica) ? 0 : mediaTecnica;
+          document.getElementById('mediaComportamental').textContent = isNaN(mediaComportamental) ? 0 : mediaComportamental;
+
+          // Dados para gráfico de barras
+          const nomes = avaliacoes.map(a => a.nome_candidato || 'N/A');
+          const notasTecnicas = avaliacoes.map(a => a.nota_tecnica || 0);
+          const notasComportamentais = avaliacoes.map(a => a.nota_comportamental || 0);
+
+          new Chart(document.getElementById('graficoNotas'), {
+            type: 'bar',
+            data: {
+              labels: nomes,
+              datasets: [
+                {
+                  label: 'Nota Técnica',
+                  data: notasTecnicas,
+                  backgroundColor: 'rgba(52, 152, 219, 0.7)'
+                },
+                {
+                  label: 'Nota Comportamental',
+                  data: notasComportamentais,
+                  backgroundColor: 'rgba(46, 204, 113, 0.7)'
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+
+          // Dados para gráfico de pizza
+          const recomendacoes = avaliacoes.reduce((acc, a) => {
+            const key = a.recomendacao_final || "Não informado";
+            acc[key] = (acc[key] || 0) + 1;
+            return acc;
+          }, {});
+
+          new Chart(document.getElementById('graficoRecomendacoes'), {
+            type: 'pie',
+            data: {
+              labels: Object.keys(recomendacoes),
+              datasets: [{
+                data: Object.values(recomendacoes),
+                backgroundColor: [
+                  'rgba(46, 204, 113, 0.7)',   // Verde
+                  'rgba(241, 196, 15, 0.7)',   // Amarelo
+                  'rgba(231, 76, 60, 0.7)'     // Vermelho
+                ]
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: {
+                  position: 'top'
+                }
+              }
+            }
+          });
+
+        } else {
+          console.error('Erro ao buscar avaliações:', data.message);
+        }
+
+      } catch (error) {
+        console.error('Erro geral:', error);
+      }
+
+      // Exportação para Excel
+      document.getElementById('btnExportar').addEventListener('click', function() {
+        if (dadosAvaliacoes.length === 0) {
+          alert("Nenhuma avaliação para exportar!");
+        } else {
+          exportarParaExcel(dadosAvaliacoes);
+        }
+      });
+
+      function exportarParaExcel(avaliacoes) {
+        const dados = avaliacoes.map(a => ({
+          'Nome do Candidato': a.nome_candidato || '',
+          'Avaliador': a.avaliador_nome || '',
+          'Área de Atuação': a.area_atuacao || '',
+          'Nota Técnica': a.nota_tecnica || 0,
+          'Nota Comportamental': a.nota_comportamental || 0,
+          'Nota Total': a.nota_total || 0,
+          'Recomendação Final': a.recomendacao_final || '',
+          'Data de Avaliação': a.data_avaliacao ? new Date(a.data_avaliacao).toLocaleDateString() : ''
+        }));
+
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.json_to_sheet(dados);
+
+        XLSX.utils.book_append_sheet(wb, ws, "Avaliações");
+        XLSX.writeFile(wb, "avaliacoes_gentil.xlsx");
+      }
+    });
+  </script>
+</body>
+</html>

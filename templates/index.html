@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário Avaliativo - Gentil Negócios</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-clipboard-check"></i> Formulário Avaliativo - ELEVA 2025</h1>
+            <p>Avaliação de candidatos para o programa de desenvolvimento</p>
+        </header>
+
+        <form id="avaliacaoForm">
+            <!-- Seção Identificação -->
+            <section class="form-section">
+                <h2><i class="fas fa-id-card"></i> Identificação</h2>
+
+                <div class="form-group">
+                    <label for="avaliador">Avaliador:</label>
+                    <select id="avaliador" name="avaliador" required>
+                        <option value="">Selecione o avaliador...</option>
+                        <option value="Pedro Demetrius">Pedro Demetrius</option>
+                        <option value="Janaína Reis">Janaína Reis</option>
+                        <option value="Samila Costa">Samila Costa</option>
+                        <option value="Monique Zuza">Monique Zuza</option>
+                        <option value="Beatriz Santos">Beatriz Santos</option>
+                        <option value="Giovanna Diniz">Giovanna Diniz</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="nome_candidato">Nome do Candidato:</label>
+                    <div class="search-container">
+                        <input type="text" id="searchCandidato" placeholder="Buscar candidato...">
+                        <select id="nome_candidato" name="nome_candidato" required size="5" class="candidato-select">
+                            <option>Carregando candidatos...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="area_atuacao">Área de Atuação:</label>
+                    <select id="area_atuacao" name="area_atuacao" required>
+                        <option value="">Selecione...</option>
+                        <option value="RETAGUARDA">RETAGUARDA</option>
+                        <option value="NATAL">NATAL</option>
+                        <option value="SÃO LUÍS">SÃO LUÍS</option>
+                        <option value="CAMPINA GRANDE">CAMPINA GRANDE</option>
+                        <option value="LESTE DA PARAÍBA">LESTE DA PARAÍBA</option>
+                        <option value="MOSSORÓ">MOSSORÓ</option>
+                        <option value="OCE">OCE</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- Seção Técnica -->
+            <section class="form-section">
+                <h2><i class="fas fa-chart-bar"></i> Avaliação Técnica</h2>
+
+                <div class="avaliacao-grid">
+                    <div class="grid-header">Critério</div>
+                    <div class="grid-header">Descrição</div>
+                    <div class="grid-header">Nota</div>
+
+                    <!-- Critérios técnicos -->
+                    {% for campo, descricao in [
+                        ("diagnostico_problema", "Clareza e profundidade na leitura da situação proposta"),
+                        ("qualidade_proposta", "Coerência da solução, aplicabilidade, criatividade e estratégia"),
+                        ("conexao_objetivos", "Alinhamento com metas e valores da Gentil Negócios"),
+                        ("uso_dados", "Argumentação baseada em dados concretos ou benchmarking"),
+                        ("clareza_apresentacao", "Lógica, fluidez e clareza na comunicação da proposta")
+                    ] %}
+                    <div>{{ campo.replace("_", " ").capitalize() }}</div>
+                    <div>{{ descricao }}</div>
+                    <div class="rating">
+                        <select name="{{ campo }}" required>
+                            <option value="">Selecione</option>
+                            {% for nota in range(1, 6) %}
+                            <option value="{{ nota }}">{{ nota }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Seção Comportamental -->
+            <section class="form-section">
+                <h2><i class="fas fa-users"></i> Avaliação Comportamental</h2>
+
+                <div class="avaliacao-grid">
+                    <div class="grid-header">Critério</div>
+                    <div class="grid-header">Descrição</div>
+                    <div class="grid-header">Nota</div>
+
+                    {% for campo, descricao in [
+                        ("protagonismo", "Iniciativa, autoconfiança e postura de dono"),
+                        ("visao_futuro", "Olhar estratégico e sensibilidade para tendências"),
+                        ("comunicacao", "Capacidade de articular ideias e engajar"),
+                        ("colaboracao", "Postura respeitosa e visão de equipe"),
+                        ("adequacao_cultura", "Aderência aos valores e cultura da empresa")
+                    ] %}
+                    <div>{{ campo.replace("_", " ").capitalize() }}</div>
+                    <div>{{ descricao }}</div>
+                    <div class="rating">
+                        <select name="{{ campo }}" required>
+                            <option value="">Selecione</option>
+                            {% for nota in range(1, 6) %}
+                            <option value="{{ nota }}">{{ nota }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Campos Abertos -->
+            <section class="form-section">
+                <h2><i class="fas fa-comment-dots"></i> Percepções Qualitativas</h2>
+
+                <div class="form-group">
+                    <label for="pontos_fortes">Pontos fortes:</label>
+                    <textarea name="pontos_fortes" id="pontos_fortes" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="aspectos_aprimorar">Aspectos a aprimorar:</label>
+                    <textarea name="aspectos_aprimorar" id="aspectos_aprimorar" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="recomendacao_eleva">Por que recomendar para o ELEVA 2025?</label>
+                    <textarea name="recomendacao_eleva" id="recomendacao_eleva" rows="3" required></textarea>
+                </div>
+            </section>
+
+            <!-- Recomendação Final -->
+            <section class="form-section">
+                <h2><i class="fas fa-star"></i> Recomendação Final</h2>
+
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="recomendacao_final" value="Sim, recomendaria com certeza" required> Sim, recomendaria com certeza
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="recomendacao_final" value="Sim, com ressalvas"> Sim, com ressalvas
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="recomendacao_final" value="Não recomendaria"> Não recomendaria
+                    </label>
+                </div>
+            </section>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> Enviar Avaliação
+                </button>
+            </div>
+        </form>
+
+    </div>
+
+    <!-- JS para carregar candidatos e enviar formulário -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('avaliacaoForm');
+
+        async function loadCandidates(search = '') {
+            try {
+                const response = await fetch(`/api/candidatos?search=${encodeURIComponent(search)}`);
+                const data = await response.json();
+                const select = document.getElementById('nome_candidato');
+                select.innerHTML = '';
+
+                if (data.success) {
+                    data.candidatos.forEach(candidato => {
+                        const option = document.createElement('option');
+                        option.value = candidato.nome;
+                        option.textContent = candidato.nome;
+                        option.dataset.area = candidato.area_atuacao;
+                        select.appendChild(option);
+                    });
+
+                    select.addEventListener('change', function() {
+                        const areaField = document.getElementById('area_atuacao');
+                        const selectedOption = this.selectedOptions[0];
+                        if (selectedOption && selectedOption.dataset.area) {
+                            areaField.value = selectedOption.dataset.area;
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error("Erro ao carregar candidatos:", error);
+            }
+        }
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const payload = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/api/avaliacoes', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert("Avaliação enviada com sucesso!");
+                    form.reset();
+                } else {
+                    alert(`Erro: ${result.message}`);
+                }
+            } catch (error) {
+                console.error("Erro ao enviar avaliação:", error);
+                alert("Erro ao enviar avaliação. Tente novamente.");
+            }
+        });
+
+        loadCandidates();
+    });
+    </script>
+
+</body>
+</html>
