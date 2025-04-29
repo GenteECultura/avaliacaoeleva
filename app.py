@@ -3,6 +3,7 @@ import requests
 from dotenv import load_dotenv
 import os
 from datetime import datetime
+import pandas as pd
 
 # Carrega variáveis de ambiente
 load_dotenv()
@@ -11,7 +12,7 @@ app = Flask(__name__, static_folder='static', template_folder='templates')
 
 # Configurações do Xano
 XANO_BASE_URL = os.getenv('XANO_BASE_URL', "https://xidg-u2cu-sa8e.n7c.xano.io/api:loOqZbWF")
-XANO_API_KEY = os.getenv('XANO_API_KEY', "eyJhbGciOiJBMjU2S1ciLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwiemlwIjoiREVGIn0.zMpzcOn3FDM6L-wdfbVD86CYWv_nTx033qjZ51L-_hLkq0baAcyq6Zr2mmvVqew_6w03CTagXhfh6enBL0HNjl-zZyQmheu7.Jcdt-7-KVKcqAAzaih8tiA.r1OQVfp_f46toA4NxZFT3J0mIb_XAnuVpBUhV0MeiURwc3RNKVeSzMytrvZmgz_42FbTiTkw8GU8awzmwsexevinZTXRPI4fVQr1hYx9WFx89RY60H6oOmjBl7dVn2iP4UwPnA0TMMSir4tghmQjJg.1Ndza8O7qF14XwFOIesKGPDVqMQkbUtFLiroc-5UUCQ")
+XANO_API_KEY = os.getenv('XANO_API_KEY', "eyJhbGciOiJBMjU2S1ciLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwiemlwIjoiREVGIn0.HTzikX6Kb4jp2Y29CKrOvRnU0FD87BK_Ga45f7R4V_GRIpJ1wm_fzXgRQRYfuuix6HGdBLL-pv0uumAtCkXMfgXHwyRy0IVJ.gun8sqixXqVGSvBnwJ6MPw.4ugLGq5bvCHMdcye14d6kT0ogJJ_Bs6rSkSzZfS9luailJntzVpYhGBYrASEPK7cFtkCqBLkbMn7qLT8G2eVSZohEYSmhcvKakl-PInnAzMsz9saBV17bkuRcKQ4_H3I-4841DHTzGYAQMr890VHBg.QmeQISqH64ajoNNfvQV_dK9mCc-3gD40Z97THMuD2ZU")
 
 def get_xano_data(endpoint, params=None):
     """Função auxiliar para consultar dados no Xano"""
@@ -38,6 +39,7 @@ def home():
     return send_from_directory('.', 'index.html')
 
 # Rota para o dashboard
+
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
