@@ -11,7 +11,7 @@ app = Flask(__name__, static_folder='static', template_folder='templates')
 
 # Configurações do Xano
 XANO_BASE_URL = os.getenv('XANO_BASE_URL', "https://xidg-u2cu-sa8e.n7c.xano.io/api:loOqZbWF")
-XANO_API_KEY = os.getenv('XANO_API_KEY', "eyJhbGciOiJBMjU2S1ciLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwiemlwIjoiREVGIn0.HTzikX6Kb4jp2Y29CKrOvRnU0FD87BK_Ga45f7R4V_GRIpJ1wm_fzXgRQRYfuuix6HGdBLL-pv0uumAtCkXMfgXHwyRy0IVJ.gun8sqixXqVGSvBnwJ6MPw.4ugLGq5bvCHMdcye14d6kT0ogJJ_Bs6rSkSzZfS9luailJntzVpYhGBYrASEPK7cFtkCqBLkbMn7qLT8G2eVSZohEYSmhcvKakl-PInnAzMsz9saBV17bkuRcKQ4_H3I-4841DHTzGYAQMr890VHBg.QmeQISqH64ajoNNfvQV_dK9mCc-3gD40Z97THMuD2ZU")
+XANO_API_KEY = os.getenv('XANO_API_KEY', "eyJhbGciOiJBMjU2S1ciLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwiemlwIjoiREVGIn0.mkHrc0TbjCoGEtCKj09icdxyYz1l5_x_Jak_X1BHUp8_pYG3BeUaoR6aXRdVKU8Rz5mwUvg1WdB_0Xcp8e447WPZYwPKkkW2.W91buAlXx6KbbosVOeyxiA.i_59CKR8MxcFf2lcJWJxlfq2DcwC6aiqBvp8NYo9ifPgCXbM8p5cOlepfpTejTH4fYOrxBzJvzcdT_tUCq_GUQ79Iukr8PYQVrZDm8ptqoTFvcZt7oEaL1Wj8sm3WT_GM6YUAxyv4ijZiK74tGaQcw.oabJrcYhWKf369_mB6PNhwVtrHm3aXl0nSrM283X_s0")
 
 def get_xano_data(endpoint, params=None):
     """Função auxiliar para consultar dados no Xano"""
