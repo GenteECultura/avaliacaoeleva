@@ -3,7 +3,6 @@ import requests
 from dotenv import load_dotenv
 import os
 from datetime import datetime
-import pandas as pd
 
 # Carrega variáveis de ambiente
 load_dotenv()
